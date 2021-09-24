@@ -12,25 +12,25 @@ using System.Collections.Generic;
 using System.Threading;
 using RabbitMQ.Client.Exceptions;
 using RabbitMQ.Client.Events;
-using QuickSampleApi.Messaging.Configurations;
-using QuickSampleApi.Messaging.Interfaces;
+using ResourceManagementApi.Messaging.Configurations;
+using ResourceManagementApi.Messaging.Interfaces;
 
-namespace QuickSampleApi.Messaging.Services
+namespace ResourceManagementApi.Messaging.Services
 {
   /// <summary>
   /// Listener for additions, deletions, and changes to Mission objects 
-  /// made by the Sample service. 
+  /// made by the ResourceManagement service. 
   /// </summary>
-  public class SampleListenerService : ISampleListenerService, IDisposable
+  public class ResourceManagementListenerService : IResourceManagementListenerService, IDisposable
   {
     private RabbitMQSettings settings;
-    private ILogger<SampleListenerService> logger;
+    private ILogger<ResourceManagementListenerService> logger;
     private IServiceScopeFactory serviceScopeFactory;
 
     private RMQConnection rmqConnection;
     private RMQConsumerChannel consumerChannel;
     private Dictionary<string, CustomBasicConsumer> consumers;
-    private const string ConsumerQueueKeyFormat = "Sample_receiving_from_{0}";
+    private const string ConsumerQueueKeyFormat = "Resource_receiving_from_{0}";
 
     /// <summary>
     /// This is a background service that processess messages received from Mosanc
@@ -45,9 +45,9 @@ namespace QuickSampleApi.Messaging.Services
     /// <param name="serviceScopeFactory">
     /// Service Scope for DI
     /// </param>
-    public SampleListenerService(
+    public ResourceManagementListenerService(
       IOptions<RabbitMQSettings> config,
-      ILogger<SampleListenerService> logger,
+      ILogger<ResourceManagementListenerService> logger,
       IServiceScopeFactory serviceScopeFactory)
     {
       this.logger = logger;
@@ -55,7 +55,7 @@ namespace QuickSampleApi.Messaging.Services
       settings = config.Value;
       consumers = new Dictionary<string, CustomBasicConsumer>();
 
-      logger.LogInformation("Starting Sample Listener Service...");
+      logger.LogInformation("Starting ResourceManagement Listener Service...");
 
       BuildConnection();
 
@@ -65,7 +65,7 @@ namespace QuickSampleApi.Messaging.Services
       }
       else
       {
-        logger.LogWarning("Connection to RabbitMQ failed in SampleListenerService. Messages will not be consumed. Check settings and restart this pod.");
+        logger.LogWarning("Connection to RabbitMQ failed in ResourceManagementListenerService. Messages will not be consumed. Check settings and restart this pod.");
       }
     }
 
@@ -188,7 +188,7 @@ namespace QuickSampleApi.Messaging.Services
     /// </summary>
     public void Dispose()
     {
-      logger.LogInformation("Closing RabbitMQ Connection for SampleListenerService...");
+      logger.LogInformation("Closing RabbitMQ Connection for ResourceManagementListenerService...");
 
       foreach(CustomBasicConsumer consumer in consumers.Values)
       {
@@ -208,7 +208,7 @@ namespace QuickSampleApi.Messaging.Services
         rmqConnection.Close();
       }
 
-      logger.LogInformation("RabbitMQ Connection Closed for SampleListenerService");
+      logger.LogInformation("RabbitMQ Connection Closed for ResourceManagementListenerService");
     }
 
     private class CustomBasicConsumer : EventingBasicConsumer

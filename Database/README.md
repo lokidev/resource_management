@@ -3,7 +3,7 @@
 This is a demo application created to show how  SQL Server can operate in a DevOps scenario where an application developer can check in code to GitHub and then trigger a build in Red Hat Open Shift to deploy the changes automatically as pods (containers).  This demo was first shown at the Nordic Infrastructure Conference (NIC) 2017 in Oslo, Norway on Feb 3, 2017.  This demo application is notable for showing a few things:
 
 * An entrypoint CMD which executes a import-data.sh script at runtime to use sqlcmd to execute a .sql script to create a database and populate initial schema into it.
-* The import-data.sh script also uses bcp to bulk import the data found in the Sample.csv file.
+* The import-data.sh script also uses bcp to bulk import the data found in the Resource.csv file.
 * A simple node application that acts as a web service to get the data out of the SQL Server database using FOR JSON auto to automatically format the data into JSON and return it in the response.
 
 **IMPORTANT:** This project has been tested with SQL Server v.Next version CTP 1.4 (March 17, 2017 release).
@@ -178,30 +178,30 @@ done
 
 **IMPORTANT:** Make sure to change your password here if you use something other than 'Yukon900'.
 
-The setup.sql script will create a new database called `DemoData` and a table called `Sample` in the default `dbo` schema.  This bcp command will import the data contained in the source code file Sample.csv.
+The setup.sql script will create a new database called `DemoData` and a table called `Resource` in the default `dbo` schema.  This bcp command will import the data contained in the source code file Resource.csv.
 **IMPORTANT:** If you change the names of the database or the table in the setup.sql script, make sure you change them here too.
 **IMPORTANT:** Make sure to change your password here if you use something other than 'Yukon900'.
 
 ```terminal
-bcp DemoData.dbo.Sample in "/usr/src/app/Sample.csv" -c -t',' -S localhost -U sa -P Yukon900
+bcp DemoData.dbo.Resource in "/usr/src/app/Resource.csv" -c -t',' -S localhost -U sa -P Yukon900
 ```
 
 ### setup.sql
 
-The setup.sql defines some simple commands to create a database and some simple schema.  You could use a .sql file like this for other purposes like creating logins, assigning permissions, creating stored procedures, and much more.  When creating a database in production situations, you will probably want to be more specific about where the database files are created so that the database files are stored in persistent storage.  This SQL script creates a table with two columns - ID (integer) and SampleName (nvarchar(max)).
+The setup.sql defines some simple commands to create a database and some simple schema.  You could use a .sql file like this for other purposes like creating logins, assigning permissions, creating stored procedures, and much more.  When creating a database in production situations, you will probably want to be more specific about where the database files are created so that the database files are stored in persistent storage.  This SQL script creates a table with two columns - ID (integer) and ResourceName (nvarchar(max)).
 
 ```sql
 CREATE DATABASE DemoData;
 GO
 USE DemoData;
 GO
-CREATE TABLE Sample (ID int, SampleName nvarchar(max));
+CREATE TABLE Resource (ID int, ResourceName nvarchar(max));
 GO
 ```
 
-### Sample.csv
+### Resource.csv
 
-This CSV data file contains some sample data to populate the Sample table.  It has two columns - ID and SampleName separated by a comma.  The bcp command in the import-data.sh script uses this file to import the data into the Sample table created by the setup.sql script file.
+This CSV data file contains some resourceManagement data to populate the Resource table.  It has two columns - ID and ResourceName separated by a comma.  The bcp command in the import-data.sh script uses this file to import the data into the Resource table created by the setup.sql script file.
 
 ```terminal
 1,Car
@@ -267,7 +267,7 @@ Assuming the connection is made correctly, the next command sets up the query th
 [More information on JSON in SQL server](https://msdn.microsoft.com/en-us/library/dn921897.aspx)
 
 ```node
-sqlreq = new request("SELECT * FROM Sample FOR JSON AUTO", function(err, rowCount) {
+sqlreq = new request("SELECT * FROM Resource FOR JSON AUTO", function(err, rowCount) {
 ```
 
 The next set of commands set up the event handler function for the sql request row command which will be triggered for each row in a response.  In this case there will only be a single row and a single column because we are using `FOR JSON AUTO` to get the data returned in a single string of JSON data.   Assuming the request comes back with a row and a column value we simply return the JSON string (the column.value) directly to the browser in the response (res).

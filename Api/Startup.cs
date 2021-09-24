@@ -4,7 +4,7 @@ using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using QuickSampleApi.Services;
+using ResourceManagementApi.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -14,12 +14,12 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using QuickSampleApi.Messaging.Configurations;
-using QuickSampleApi.Messaging.Interfaces;
-using QuickSampleApi.Messaging.Services;
-using QuickSampleApi.Services.Interfaces;
+using ResourceManagementApi.Messaging.Configurations;
+using ResourceManagementApi.Messaging.Interfaces;
+using ResourceManagementApi.Messaging.Services;
+using ResourceManagementApi.Services.Interfaces;
 
-namespace QuickSampleApi
+namespace ResourceManagementApi
 {
     public class Startup
     {
@@ -50,9 +50,9 @@ namespace QuickSampleApi
             // Add consumer service to run in the background
             services.Configure<RabbitMQSettings>(Configuration.GetSection("RabbitMQSettings"));
             services.AddSingleton<IRabbitMqService, RabbitMqService>();
-            services.AddSingleton<ISampleListenerService, SampleListenerService>();
+            services.AddSingleton<IResourceManagementListenerService, ResourceManagementListenerService>();
 
-            services.AddScoped<ISampleService, SampleService>();
+            services.AddScoped<IResourceService, ResourceService>();
 
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>
@@ -60,7 +60,7 @@ namespace QuickSampleApi
                 c.SwaggerDoc("v1", new OpenApiInfo
                 {
                     Version = "v1",
-                    Title = "Sample API",
+                    Title = "Resource Management API",
                     Description = "A simple example ASP.NET Core Web API",
                     Contact = new OpenApiContact
                     {
@@ -99,7 +99,7 @@ namespace QuickSampleApi
             // specifying the Swagger JSON endpoint.
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Sample API V1");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Resource Management API V1");
                 c.RoutePrefix = string.Empty;
             });
 
@@ -123,7 +123,7 @@ namespace QuickSampleApi
         private void InstantiateRmqServices(IApplicationBuilder app)
         {
             app.ApplicationServices.GetService(typeof(IRabbitMqService));
-            app.ApplicationServices.GetService(typeof(ISampleListenerService));
+            app.ApplicationServices.GetService(typeof(IResourceManagementListenerService));
         }
     }
 }

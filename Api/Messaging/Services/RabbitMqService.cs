@@ -7,10 +7,10 @@ using RabbitMQ.Client.Exceptions;
 using System;
 using System.Text;
 using System.Threading;
-using QuickSampleApi.Messaging.Interfaces;
-using QuickSampleApi.Messaging.Configurations;
+using ResourceManagementApi.Messaging.Interfaces;
+using ResourceManagementApi.Messaging.Configurations;
 
-namespace QuickSampleApi.Messaging.Services
+namespace ResourceManagementApi.Messaging.Services
 {
   /// <summary>
   /// Singleton service used to 

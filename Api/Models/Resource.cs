@@ -3,11 +3,11 @@ using System.Collections.Generic;
 
 #nullable disable
 
-namespace QuickSampleApi.Models
+namespace ResourceManagementApi.Models
 {
-    public partial class Sample
+    public partial class Resource
     {
         public int? Id { get; set; }
-        public string SampleName { get; set; }
+        public string ResourceName { get; set; }
     }
 }

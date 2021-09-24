@@ -1,7 +1,7 @@
 using Newtonsoft.Json;
 
 // TODO: This should probably be common to the two notifications-be-XXXXXXX projects
-namespace QuickSampleApi.Messaging.Configurations
+namespace ResourceManagementApi.Messaging.Configurations
 {
   [JsonObject("rabbit_mq_settings")]
   public class RabbitMQSettings

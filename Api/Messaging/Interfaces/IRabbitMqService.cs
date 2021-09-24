@@ -1,4 +1,4 @@
-﻿namespace QuickSampleApi.Messaging.Interfaces
+﻿namespace ResourceManagementApi.Messaging.Interfaces
 {
   public interface IRabbitMqService
   {   

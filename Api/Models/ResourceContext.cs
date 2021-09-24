@@ -5,24 +5,24 @@ using Microsoft.Extensions.Configuration;
 
 #nullable disable
 
-namespace QuickSampleApi.Models
+namespace ResourceManagementApi.Models
 {
-    public partial class SampleContext : DbContext
+    public partial class ResourceContext : DbContext
     {
         private readonly IConfiguration _configuration;
 
-        public SampleContext(IConfiguration configuration)
+        public ResourceContext(IConfiguration configuration)
         {
             _configuration = configuration;
         }
 
-        public SampleContext(DbContextOptions<SampleContext> options, IConfiguration configuration)
+        public ResourceContext(DbContextOptions<ResourceContext> options, IConfiguration configuration)
             : base(options)
         {
             _configuration = configuration;
         }
 
-        public virtual DbSet<Sample> Samples { get; set; }
+        public virtual DbSet<Resource> Resources { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -30,7 +30,7 @@ namespace QuickSampleApi.Models
             {
                 optionsBuilder.UseSqlServer(_configuration.GetSection("SqlConnection").Get<string>());
                 // Use when running outside of docker
-                // optionsBuilder.UseSqlServer("Server=localhost,5434;Database=Sample;User ID=sa;Password=Yukon900;");
+                // optionsBuilder.UseSqlServer("Server=localhost,5434;Database=ResourceManagement;User ID=sa;Password=Yukon900;");
             }
         }
 
@@ -38,11 +38,11 @@ namespace QuickSampleApi.Models
         {
             modelBuilder.HasAnnotation("Relational:Collation", "SQL_Latin1_General_CP1_CI_AS");
 
-            modelBuilder.Entity<Sample>(entity =>
+            modelBuilder.Entity<Resource>(entity =>
             {
                 entity.HasNoKey();
 
-                entity.ToTable("Sample");
+                entity.ToTable("Resource");
 
                 entity.Property(e => e.Id).HasColumnName("ID");
             });

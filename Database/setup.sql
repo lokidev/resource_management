@@ -1,6 +1,6 @@
-CREATE DATABASE Sample;
+CREATE DATABASE ResourceManagement;
 GO 
-USE Sample;
+USE ResourceManagement;
 GO 
-CREATE TABLE Sample (ID int, SampleName varchar(max));
+CREATE TABLE Resource (ID int, ResourceName varchar(max));
 GO
