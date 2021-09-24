@@ -1,0 +1,16 @@
+version: '3.7' # specify docker-compose version
+
+# Define the services/containers to be run
+services:
+  mssql-graph-db:
+    hostname: localhost
+    #container_name: angular-app
+    image: mssql-graph-db
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 5434:1433
+    environment:
+      - SA_PASSWORD=Yukon900
+      - ACCEPT_EULA=Y

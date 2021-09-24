@@ -1,0 +1,35 @@
+services:
+  sample-api:
+    container_name: sample-api
+    image: sample-api
+    build:
+      context: ./Api
+      dockerfile: Dockerfile
+    ports:
+      - "5051:80"
+    depends_on:
+      - sample-db
+
+  sample-db:
+    container_name: sample-db
+    image: sample-db
+    build:
+      context: ./Database
+      dockerfile: Dockerfile
+    ports:
+      - 5434:1433
+    environment:
+      - SA_PASSWORD=Yukon900
+      - ACCEPT_EULA=Y
+
+  sample-rmq:
+    container_name: sample-rmq
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
+networks:
+  default:
+    external: true
+    name: sample-network
