@@ -1,20 +1,11 @@
-services:
-  resource-management-api:
-    container_name: resource-management-api
-    image: resource-management-api
-    build:
-      context: ./Api
-      dockerfile: Dockerfile
-    ports:
-      - "5054:80"
-    depends_on:
-      - resource-management-db
+version: "3.9"
 
+services:
   resource-management-db:
     container_name: resource-management-db
     image: resource-management-db
     build:
-      context: ./Database
+      context: ../Database
       dockerfile: Dockerfile
     ports:
       - 5434:1433

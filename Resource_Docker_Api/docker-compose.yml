@@ -1,0 +1,17 @@
+version: "3.9"
+
+services:
+  resource-management-api:
+    container_name: resource-management-api
+    image: resource-management-api
+    build:
+      context: ../Api
+      dockerfile: Dockerfile
+    ports:
+      - "5054:80"
+
+networks:
+  default:
+    # use the default network of the karma container
+    external: true
+    name: karma_docker_api_default
