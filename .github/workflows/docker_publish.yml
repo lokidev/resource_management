@@ -29,7 +29,7 @@ jobs:
           context: ./Api
           file: ./Api/Dockerfile
           push: true
-          tags: ${{ secrets.DOCKER_USER }}/people-management-api:latest
+          tags: ${{ secrets.DOCKER_USER }}/resource-management-api:latest
 
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
@@ -58,7 +58,7 @@ jobs:
           context: ./Database
           file: ./Database/Dockerfile
           push: true
-          tags: ${{ secrets.DOCKER_USER }}/people-management-db:latest
+          tags: ${{ secrets.DOCKER_USER }}/resource-management-db:latest
 
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
